@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-MAINTAINER Donatas Navidonskis <donatas@navidonskis.com>
+MAINTAINER Andre Dixon <dredix84@gmail.com>
 
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEN noninteractive
@@ -36,28 +36,30 @@ RUN dpkg-divert --local --rename --add /sbin/initctl && \
 
 	# Install PHP
 	apt-get install -y php7.1-fpm \
+		php-pear \
+		php-dev \
 		php7.1-mysql \
-	    php7.1-curl \
-	    php7.1-gd \
-	    php7.1-intl \
-	    php7.1-mcrypt \
-	    php-memcache \
-	    php7.1-sqlite \
-	    php7.1-tidy \
-	    php7.1-xmlrpc \
-	    php7.1-pgsql \
-	    php7.1-ldap \
-	    freetds-common \
-	    php7.1-pgsql \
-	    php7.1-sqlite3 \
-	    php7.1-json \
-	    php7.1-xml \
-	    php7.1-mbstring \
-	    php7.1-soap \
-	    php7.1-zip \
-	    php7.1-cli \
-	    php7.1-sybase \
-	    php7.1-odbc
+		php7.1-curl \
+		php7.1-gd \
+		php7.1-intl \
+		php7.1-mcrypt \
+		php-memcache \
+		php7.1-sqlite \
+		php7.1-tidy \
+		php7.1-xmlrpc \
+		php7.1-pgsql \
+		php7.1-ldap \
+		freetds-common \
+		php7.1-pgsql \
+		php7.1-sqlite3 \
+		php7.1-json \
+		php7.1-xml \
+		php7.1-mbstring \
+		php7.1-soap \
+		php7.1-zip \
+		php7.1-cli \
+		php7.1-sybase \
+		php7.1-odbc
 
 # Cleanup
 RUN apt-get remove --purge -y software-properties-common \
@@ -111,6 +113,17 @@ RUN rm -f /etc/nginx/sites-enabled/default && \
 	chown -Rf www-data.www-data /var/www && \
 	touch /var/log/cron.log && \
 	touch /etc/cron.d/crontasks
+
+# Setting up for MongoDB
+RUN apt-get update -y
+RUN apt-get install -y php-mongodb
+RUN sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+RUN echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+RUN sudo apt-get update -y
+RUN sudo apt-get install -y mongodb-org-shell mongodb-org-tools
+
+# Setting Up XDebug
+RUN pecl install xdebug
 
 # Expose Ports
 EXPOSE 80
