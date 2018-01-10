@@ -1,8 +1,6 @@
 # Docker nginx + php7.1 container
 
-Docker container based on `Ubuntu 16.04` version. Using `nginx stable` version with `php 7.1`. This is simple container for my own personally purpose. If you have an idea how to improve it, contact me <donatas@navidonskis.com>.
-
-Need PHP 5.6 ? [https://github.com/navidonskis/nginx-php5.6](https://github.com/navidonskis/nginx-php5.6).
+Docker container based on `Ubuntu 16.04` version. Using `nginx stable` version with `php 7.1`. This is simple container for my own personally purpose. If you have an idea how to improve it, contact me <dredix84@gmail.com>.
 
 ## Includes packages
 
