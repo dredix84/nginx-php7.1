@@ -32,6 +32,7 @@ RUN dpkg-divert --local --rename --add /sbin/initctl && \
 		nginx \
 		memcached \
 		ssmtp \
+		iputils-ping \
 		cron && \
 
 	# Install PHP
@@ -39,27 +40,33 @@ RUN dpkg-divert --local --rename --add /sbin/initctl && \
 		php-pear \
 		php-dev \
 		php7.1-mysql \
-		php7.1-curl \
-		php7.1-gd \
-		php7.1-intl \
-		php7.1-mcrypt \
-		php-memcache \
-		php7.1-sqlite \
-		php7.1-tidy \
-		php7.1-xmlrpc \
-		php7.1-pgsql \
-		php7.1-ldap \
-		freetds-common \
-		php7.1-pgsql \
-		php7.1-sqlite3 \
-		php7.1-json \
-		php7.1-xml \
-		php7.1-mbstring \
-		php7.1-soap \
-		php7.1-zip \
-		php7.1-cli \
-		php7.1-sybase \
-		php7.1-odbc
+	    php7.1-curl \
+	    php7.1-gd \
+	    php7.1-intl \
+	    php7.1-mcrypt \
+	    php-memcache \
+	    php7.1-sqlite \
+	    php7.1-tidy \
+	    php7.1-xmlrpc \
+	    php7.1-pgsql \
+	    php7.1-ldap \
+	    freetds-common \
+	    php7.1-pgsql \
+	    php7.1-sqlite3 \
+	    php7.1-json \
+	    php7.1-xml \
+	    php7.1-mbstring \
+	    php7.1-soap \
+	    php7.1-zip \
+	    php7.1-cli \
+	    php7.1-sybase \
+	    php7.1-odbc
+
+# Setting Up XDebug
+RUN pecl install xdebug
+
+# Install networking tools like ping
+RUN apt-get install -y iputils-ping
 
 # Cleanup
 RUN apt-get remove --purge -y software-properties-common \
@@ -122,8 +129,17 @@ RUN echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mon
 RUN sudo apt-get update -y
 RUN sudo apt-get install -y mongodb-org-shell mongodb-org-tools
 
-# Setting Up XDebug
-RUN pecl install xdebug
+# Setup PHP XDebug
+RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" > /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "[xdebug]" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "xdebug.idekey=PHPSTORM" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "xdebug.default_enable=0" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "xdebug.remote_enable=1" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "xdebug.remote_autostart=0" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "xdebug.remote_connect_back=0" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "xdebug.remote_connect_back=0" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "xdebug.remote_host = 10.0.75.1" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /etc/php/7.1/fpm/conf.d/20-xdebug.ini
 
 # Expose Ports
 EXPOSE 80
