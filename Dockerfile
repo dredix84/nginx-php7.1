@@ -144,4 +144,6 @@ RUN echo "zend_extension=$(find /usr/lib/php/ -name xdebug.so)" > /etc/php/7.1/f
 # Expose Ports
 EXPOSE 80
 
+WORKDIR /var/www
+
 ENTRYPOINT ["/bin/bash", "/cmd.sh"]
