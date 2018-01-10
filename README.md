@@ -14,7 +14,7 @@ Creating container via `docker-compose` file.
 
 ```yaml
   web:
-    image: navidonskis/nginx-php7.1
+    image: dredix84/nginx-php7.1
     container_name: web
     restart: always
     volumes:
