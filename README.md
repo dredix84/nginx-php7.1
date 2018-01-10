@@ -1,12 +1,12 @@
-# Docker nginx + php7.1 container
+# Docker ubuntu + nginx + php7.1 container
 
 Docker container based on `Ubuntu 16.04` version. Using `nginx stable` version with `php 7.1`. This is simple container for my own personally purpose. If you have an idea how to improve it, contact me <dredix84@gmail.com>.
 
 ## Includes packages
 
  * nginx, ssmtp, memcached, curl, pwgen, supervisor
- * git, composer
- * php 7.1 (fpm, cli, mysql, apc, curl, gd, intl, mcrypt, mbstring, memcache, memcached, sqlite, tidy, xmlrpc, xsl, pgsql,  ldap, sybase, odbc, soap, json)
+ * git, composer, xdebug
+ * php 7.1 (fpm, cli, mysql, apc, curl, gd, intl, mcrypt, mbstring, memcache, memcached, sqlite, tidy, xmlrpc, xsl, pgsql,  ldap, sybase, odbc, soap, json, mongodb, pecl)
 
 ## Usage
 
